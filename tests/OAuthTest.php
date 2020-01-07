@@ -1,21 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace In2it\HelloWorld\Test;
-
 use PHPUnit\Framework\TestCase;
 use Savikindo\Sws\OAuth;
 
 
-class HelloWorldTest extends TestCase {
+class OAuthTest extends TestCase {
 
-    public function testGetToken()
+    public function testGetAccessToken()
     {
-        $data = [
-            'email' => 'me@tukangremot.com'
+        $payload = [
+            'client_id' => '34153245-da7a-45f4-8b16-2993b3f5b817',
+            'email' => 'me@tukangremot.com',
+            'password' => 'savikindo'
         ];
-        $auth = new OAuth($data);
-        $auth->autorize();
-        $this->assertEquals($auth->getToken(), 'ok');
+        $auth = new OAuth();
+        $auth->autorize($payload);
+        $this->assertNotNull($auth->getAccessToken());
+        $this->assertNotNull($auth->getRefreshToken());
+        $this->assertArrayHasKey('id', $auth->getProfile());
     }
 }
